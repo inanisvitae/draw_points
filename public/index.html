@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Points Graph</title>
+    <!-- <script type="text/javascript" src="https://mbostock.github.com/d3/d3.v2.js"></script> -->
+    <script src="https://d3js.org/d3.v2.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script type="text/javascript" src="simple-graph.js"></script>
+    <style type="text/css">
+      body { font: 13px sans-serif; }
+      rect { fill: #fff; }
+      ul {
+        list-style-type: none;
+        margin: 0.5em 0em 0.5em 0em;
+        width: 100%; }
+        ul li {
+          display: table-cell;
+          vertical-align: middle;
+          margin: 0em;
+          padding: 0em 1em; }
+      .axis { font-size: 1.5em; }
+      .chart {
+        background-color: #F7F2C5;
+        width: 960px;
+        height: 500px; }
+      circle, .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2px; }
+      circle {
+        fill: white;
+        fill-opacity: 1;
+        cursor: move; }
+        circle.selected {
+          fill: #ff7f0e;
+          stroke: #ff7f0e; }
+        circle:hover {
+          fill: #ff7f0e;
+          stroke: #707f0e; }
+        circle.selected:hover {
+          fill: #ff7f0e;
+          stroke: #ff7f0e; }
+    </style>
+  </head>
+  <body>
+    <div id="chart1" class="chart"></div>
+    <form name="input_form" class="form-inline">
+      <div class="form-group">
+        <label for="x_coord">X coordinate: </label><input type="text" id="x_coord" vaue="0" placeholder="X coordinate goes here..." class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="y_coord">Y coordinate: </label><input type="text" id="y_coord" vaue="0" placeholder="Y coordinate goes here..." class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="color">Color: </label><input type="text" id="color" placeholder="Color goes here..." class="form-control">      
+      </div>
+      <button name="Submit" value="Add to list" id="submit_coords" class="btn btn-default">submit</button>
+
+    </form>
+
+    <script type="text/javascript">
+      graph = new SimpleGraph("chart1", {
+          "xmax": 60, "xmin": 0,
+          "ymax": 40, "ymin": 0, 
+          "title": "Simple Graph1",
+          "xlabel": "X Axis",
+          "ylabel": "Y Axis"
+        });
+      d3.select("#submit_coords").on("click", function(d, i) {
+          x_coord_init = document.getElementById("x_coord").value
+          y_coord_init = document.getElementById("y_coord").value
+          color = document.getElementById("color").value
+          var lst = ['Yellow', 'yellow', 'blue', 'Blue', 'Green', 'green', 'Red', 'red']
+          if(!isNaN(x_coord_init) && !isNaN(y_coord_init)) {
+            if(lst.indexOf(color) >= 0) {
+              graph.add_new_point(x_coord_init, y_coord_init, color);
+              document.getElementById("x_coord").value = 0;
+              document.getElementById("y_coord").value = 0;
+              document.getElementById("color").value = ""
+            }else{
+              window.alert("This is not a valid color.")
+            }
+          }else{
+            window.alert("This is not a valid coordinate.")
+          }
+
+        })
+
+
+    </script>
+  </body>
+</html>
